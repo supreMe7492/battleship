@@ -65,7 +65,7 @@ class gameBoard {
     if (!this.hittedCordinates.has(cordinate.toString())) {
       this.shipsSunk();
       if (this.sunkedShip.length == this.ships.length) {
-        return;
+        return true;
       } else {
         this.isHittingShip(cordinate);
         this.hittedCordinates.add(cordinate.toString());
@@ -86,6 +86,11 @@ class gameBoard {
         this.sunkedShip.push(ship);
       }
     });
+  }
+  allShipShunk() {
+    if (this.sunkedShip.length == this.ships.length) {
+      return true;
+    }
   }
 }
 
