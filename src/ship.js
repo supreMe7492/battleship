@@ -1,7 +1,7 @@
 export class ship {
   constructor(length) {
     this.length = length;
-    this.cordinates = [];
+    this.cordinates = new Set();
   }
   hit() {
     this.length--;

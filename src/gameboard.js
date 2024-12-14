@@ -2,6 +2,9 @@ import { ship } from "./ship";
 class gameBoard {
   constructor() {
     this.ships = [];
+    this.sunkedShip = [];
+    this.cordinateSet = new Set();
+    this.hittedCordinates = new Set();
   }
   createShips() {
     for (let i = 4; i >= 1; i--) {
@@ -21,26 +24,29 @@ class gameBoard {
         let y = Math.floor(Math.random() * 10);
         let axis = ["horiz", "vert"];
         let choosedAxis = axis[Math.floor(Math.random() * 2)];
-        let possibleCordinates = [];
+        let possibleCordinates = new Set();
 
         for (let i = 0; i < ship.length; i++) {
           if (choosedAxis === "horiz") {
             if (y + ship.length <= 10) {
-              possibleCordinates.push([x, y + i]);
+              possibleCordinates.add([x, y + i].toString());
             } else {
-              possibleCordinates.push([x, y - i]);
+              possibleCordinates.add([x, y - i].toString());
             }
           } else if (choosedAxis === "vert") {
             if (x + ship.length <= 10) {
-              possibleCordinates.push([x + i, y]);
+              possibleCordinates.add([x + i, y].toString());
             } else {
-              possibleCordinates.push([x - i, y]);
+              possibleCordinates.add([x - i, y].toString());
             }
           }
         }
         let checkOvelap = this.isOverlapping(possibleCordinates);
         if (!checkOvelap) {
           ship.cordinates = possibleCordinates;
+          for (const cord of possibleCordinates) {
+            this.cordinateSet.add(cord);
+          }
           validPosition = true;
         }
       }
@@ -48,15 +54,38 @@ class gameBoard {
   }
   isOverlapping(possible) {
     for (const possibleCord of possible) {
-      for (const ship of this.ships) {
-        for (const cordinate of ship.cordinates) {
-          if (cordinate.toString() == possibleCord.toString()) {
-            return true;
-          }
-        }
+      if (this.cordinateSet.has(possibleCord)) {
+        return true;
       }
     }
+
     return false;
+  }
+  hitBoard(cordinate) {
+    if (!this.hittedCordinates.has(cordinate.toString())) {
+      this.shipsSunk();
+      if (this.sunkedShip.length == this.ships.length) {
+        return;
+      } else {
+        this.isHittingShip(cordinate);
+        this.hittedCordinates.add(cordinate.toString());
+      }
+    }
+  }
+  isHittingShip(cord) {
+    this.ships.forEach((ship) => {
+      if (ship.cordinates.has(cord.toString())) {
+        ship.hit();
+        return;
+      }
+    });
+  }
+  shipsSunk() {
+    this.ships.forEach((ship) => {
+      if (ship.isSunk() && !this.sunkedShip.includes(ship)) {
+        this.sunkedShip.push(ship);
+      }
+    });
   }
 }
 
