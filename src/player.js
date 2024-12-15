@@ -9,10 +9,10 @@ class player {
     this.playerGameBoard.shipCordinates();
   }
   attack(enemyBoard, cord) {
-    enemyBoard.hitBoard(cord);
+    enemyBoard.playerGameBoard.hitBoard(cord);
   }
   checkLoss() {
-    if (this.playerGameBoard.allShipShunk) {
+    if (this.playerGameBoard.allShipShunk()) {
       return true;
     }
   }

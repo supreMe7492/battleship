@@ -1,0 +1,60 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  height: 100vh;
+  background-color: rgb(6, 77, 6);
+}
+
+.gameContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  text-align: center;
+}
+.gameBoardContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  gap: 2em;
+  gap: 1em;
+  justify-content: space-evenly;
+}
+.playerContainer,
+.computerContainer {
+  height: 98%;
+  width: 31%;
+  margin-top: -3em;
+  margin-left: 4em;
+}
+
+.playerBoard,
+.computerBoard {
+  display: grid;
+  margin-bottom: 15%;
+  height: 85%;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  gap: 2px;
+}
+.playerBoardCells,
+.computerBoardCells {
+  background-color: green;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.result {
+  margin-bottom: 2em;
+}
+.reset {
+  width: 55px;
+  position: relative;
+  z-index: 1;
+  left: 56em;
+  cursor: pointer;
+  bottom: 4em;
+}
